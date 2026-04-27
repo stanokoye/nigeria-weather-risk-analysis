@@ -144,9 +144,9 @@ The goal is to demonstrate that data analysis skills apply to real, unstructured
 
 ## Author
 
-**[Your Name]**  
+**Stanley Okoye**  
 MSc Business Analytics  
-[LinkedIn](#) · [Portfolio](#)
+(https://www.linkedin.com/in/stanley-okoye-1a8a9a2a4/)(#) 
 
 ---
 
