@@ -187,7 +187,7 @@ It is part of my data analytics portfolio demonstrating applied skills across Py
 **Stanley Okoye**  
 MSc Business Analytics  
 Bsc Economics
-[LinkedIn](www.linkedin.com/in/stanley-okoye-1a8a9a2a4) · [Portfolio](#)
+[LinkedIn](https://www.linkedin.com/in/stanley-okoye-1a8a9a2a4/) · [Portfolio](#)
 
 ---
 
