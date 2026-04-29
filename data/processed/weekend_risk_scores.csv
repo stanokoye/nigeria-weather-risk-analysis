@@ -1,11 +1,11 @@
-weekend,start,end,month,risk_score,rating,recommendation
-Jun 18–21,2026-06-18,2026-06-21,6,49,Best,Primary recommendation
-Jun 25–28,2026-06-25,2026-06-28,6,54,Best,Secondary recommendation
-Jul 2–5,2026-07-02,2026-07-05,7,70,High Risk,Risky — avoid if possible
-Jul 9–12,2026-07-09,2026-07-12,7,72,Avoid,Risky — avoid if possible
-Jul 16–19,2026-07-16,2026-07-19,7,74,Avoid,Risky — avoid if possible
-Jul 23–26,2026-07-23,2026-07-26,7,60,Moderate,August break — not guaranteed
-Jul 30–Aug 2,2026-07-30,2026-08-02,8,47,Best,August break — contingency only
-Aug 6–9,2026-08-06,2026-08-09,8,67,High Risk,Avoid
-Aug 13–16,2026-08-13,2026-08-16,8,69,High Risk,Avoid
-Aug 20–23,2026-08-20,2026-08-23,8,66,High Risk,Avoid
+weekend,start,end,month,risk_score,rating,recommendation,sort_order
+Jun 18–21,2026-06-18,2026-06-21,6,49,Best,Primary recommendation,1
+Jun 25–28,2026-06-25,2026-06-28,6,54,Best,Secondary recommendation,2
+Jul 2–5,2026-07-02,2026-07-05,7,70,High Risk,Risky — avoid if possible,3
+Jul 9–12,2026-07-09,2026-07-12,7,72,Avoid,Risky — avoid if possible,4
+Jul 16–19,2026-07-16,2026-07-19,7,74,Avoid,Risky — avoid if possible,5
+Jul 23–26,2026-07-23,2026-07-26,7,60,Moderate,August break — not guaranteed,6
+Jul 30–Aug 2,2026-07-30,2026-08-02,8,47,Best,August break — contingency only,7
+Aug 6–9,2026-08-06,2026-08-09,8,67,High Risk,Avoid,8
+Aug 13–16,2026-08-13,2026-08-16,8,69,High Risk,Avoid,9
+Aug 20–23,2026-08-20,2026-08-23,8,66,High Risk,Avoid,10
