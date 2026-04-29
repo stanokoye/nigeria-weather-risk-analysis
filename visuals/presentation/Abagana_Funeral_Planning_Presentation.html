@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Selecting the Right Date — Abagana, Anambra State</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:     #0A1628;
+    --navy2:    #0D1F3C;
+    --navy3:    #112444;
+    --gold:     #C9973A;
+    --gold2:    #E8B84B;
+    --gold3:    #F5D98A;
+    --gold4:    #FDF3DC;
+    --white:    #FFFFFF;
+    --offwhite: #F9F7F4;
+    --cream:    #F2EDE4;
+    --gray:     #6B7280;
+    --lgray:    #E8E4DF;
+    --dgray:    #2D3748;
+    --green:    #1D7A5F;
+    --amber:    #B07D2A;
+    --red:      #8B2020;
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body:    'Jost', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--navy);
+    overflow: hidden;
+    font-family: var(--font-body);
+  }
+
+  /* ── PRESENTATION SHELL ── */
+  #presentation {
+    width: 100vw; height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ── SLIDES ── */
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.7s ease;
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .slide.dark { background: var(--navy); }
+  .slide.light { background: var(--offwhite); }
+
+  /* Gold frame lines */
+  .slide::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+    background: var(--gold);
+    z-index: 10;
+  }
+  .slide::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 5px;
+    background: var(--gold);
+    z-index: 10;
+  }
+
+  /* ── SLIDE CONTENT AREAS ── */
+  .slide-inner {
+    flex: 1;
+    padding: 3.5vh 5vw 3vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ── TYPOGRAPHY ── */
+  .slide-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3.2vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 0.4em;
+  }
+  .slide-title.light-text { color: var(--white); }
+  .slide-title.dark-text  { color: var(--navy); }
+
+  .gold-rule {
+    width: 55%; height: 3px;
+    background: var(--gold);
+    margin-bottom: 1.5vh;
+    border: none;
+  }
+
+  .subtitle {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(1rem, 1.6vw, 1.3rem);
+    color: var(--gold3);
+    margin-bottom: 0.6em;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes slideRight {
+    from { opacity: 0; transform: translateX(-20px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes goldGlow {
+    0%, 100% { box-shadow: 0 0 12px rgba(201,151,58,0.3); }
+    50%       { box-shadow: 0 0 28px rgba(201,151,58,0.6); }
+  }
+  @keyframes countUp {
+    from { opacity: 0; transform: scale(0.85); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  @keyframes barGrow {
+    from { width: 0; }
+    to   { width: var(--bar-w); }
+  }
+  @keyframes dotPulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50%       { opacity: 0.7; transform: scale(1.3); }
+  }
+
+  .slide.active .anim-1 { animation: fadeUp 0.6s 0.1s both ease-out; }
+  .slide.active .anim-2 { animation: fadeUp 0.6s 0.25s both ease-out; }
+  .slide.active .anim-3 { animation: fadeUp 0.6s 0.4s both ease-out; }
+  .slide.active .anim-4 { animation: fadeUp 0.6s 0.55s both ease-out; }
+  .slide.active .anim-5 { animation: fadeUp 0.6s 0.7s both ease-out; }
+  .slide.active .anim-6 { animation: fadeUp 0.6s 0.85s both ease-out; }
+  .slide.active .anim-fi { animation: fadeIn 0.8s 0.2s both; }
+
+  /* ── NAV ── */
+  #nav {
+    position: fixed;
+    bottom: 2.2vh;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    z-index: 100;
+    background: rgba(10,22,40,0.85);
+    border: 1px solid rgba(201,151,58,0.3);
+    padding: 10px 20px;
+    border-radius: 40px;
+    backdrop-filter: blur(8px);
+  }
+  #nav button {
+    background: none;
+    border: 1.5px solid var(--gold);
+    color: var(--gold);
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  #nav button:hover { background: var(--gold); color: var(--navy); }
+  #slide-counter {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    color: var(--gold3);
+    letter-spacing: 0.1em;
+    min-width: 55px;
+    text-align: center;
+  }
+  .dot-nav { display: flex; gap: 7px; align-items: center; }
+  .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: rgba(201,151,58,0.3);
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .dot.active { background: var(--gold); transform: scale(1.4); }
+
+  /* ── KEYBOARD HINT ── */
+  #hint {
+    position: fixed;
+    top: 1.5vh;
+    right: 2vw;
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    color: rgba(201,151,58,0.5);
+    z-index: 100;
+    letter-spacing: 0.08em;
+  }
+
+  /* ── SLIDE 1: TITLE ── */
+  #s1 .left-accent {
+    position: absolute;
+    left: 0; top: 5px; bottom: 5px;
+    width: 5px;
+    background: var(--gold);
+  }
+  #s1 .main-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.05;
+    margin-bottom: 0.2em;
+  }
+  #s1 .sub-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 3vw, 2.4rem);
+    color: var(--gold2);
+    font-style: italic;
+    margin-bottom: 1.5vh;
+  }
+  #s1 .rule { width: 45%; height: 3px; background: var(--gold); border: none; margin-bottom: 2vh; }
+  #s1 .tagline {
+    font-family: var(--font-body);
+    font-size: clamp(0.85rem, 1.4vw, 1.1rem);
+    color: var(--gold3);
+    font-style: italic;
+    font-weight: 300;
+    margin-bottom: 4vh;
+  }
+  #s1 .meta {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    color: rgba(138,155,181,0.8);
+    letter-spacing: 0.05em;
+    position: absolute;
+    bottom: 3vh;
+    left: 5vw;
+  }
+  #s1 .decorative-dots {
+    position: absolute;
+    right: 6vw;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 1.8vh;
+  }
+  #s1 .decorative-dots span {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--gold);
+    opacity: 0.4;
+    animation: dotPulse 2.5s infinite;
+  }
+  #s1 .decorative-dots span:nth-child(2) { animation-delay: 0.5s; }
+  #s1 .decorative-dots span:nth-child(3) { animation-delay: 1s; }
+  #s1 .decorative-dots span:nth-child(4) { animation-delay: 1.5s; }
+  #s1 .decorative-dots span:nth-child(5) { animation-delay: 2s; }
+
+  /* ── CONSTRAINT CARDS (Slide 2) ── */
+  .question-box {
+    background: var(--navy2);
+    border: 1.5px solid var(--gold);
+    padding: 2.2vh 2.5vw;
+    margin-bottom: 2.5vh;
+    box-shadow: 0 4px 20px rgba(201,151,58,0.15);
+  }
+  .question-box p {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(1rem, 1.7vw, 1.35rem);
+    color: var(--white);
+    text-align: center;
+    line-height: 1.5;
+  }
+  .constraint-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5vw;
+  }
+  .constraint-card {
+    background: var(--navy2);
+    border-top: 4px solid var(--gold);
+    padding: 1.8vh 1.5vw;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  }
+  .constraint-card .label {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--gold2);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.8vh;
+  }
+  .constraint-card .value {
+    font-family: var(--font-display);
+    font-size: clamp(1rem, 1.6vw, 1.25rem);
+    color: var(--white);
+    font-style: italic;
+  }
+  .footnote {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    color: var(--gray);
+    text-align: center;
+    font-style: italic;
+    margin-top: 1.5vh;
+  }
+
+  /* ── METRIC CARDS (Slide 3) ── */
+  .body-text {
+    font-family: var(--font-body);
+    font-size: clamp(0.82rem, 1.2vw, 0.98rem);
+    color: var(--dgray);
+    line-height: 1.6;
+    margin-bottom: 1.8vh;
+  }
+  .body-text.light { color: rgba(160,184,200,0.9); }
+  .metrics-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1vw;
+    margin-bottom: 2.5vh;
+  }
+  .metric-card {
+    background: var(--navy);
+    border-top: 3px solid var(--gold);
+    padding: 1.6vh 0.8vw;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  }
+  .metric-card .val {
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 2.2vw, 1.8rem);
+    font-weight: 700;
+    color: var(--gold2);
+    display: block;
+    animation: countUp 0.6s both;
+  }
+  .metric-card .lbl {
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    color: rgba(160,176,200,0.8);
+    margin-top: 0.4vh;
+    line-height: 1.3;
+  }
+  .insight-box {
+    background: var(--cream);
+    border-left: 5px solid var(--gold);
+    padding: 1.8vh 2vw;
+    box-shadow: 0 2px 12px rgba(201,151,58,0.1);
+  }
+  .insight-box strong {
+    font-family: var(--font-display);
+    font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+    color: var(--navy);
+    display: block;
+    margin-bottom: 0.5vh;
+  }
+  .insight-box p {
+    font-family: var(--font-body);
+    font-size: clamp(0.8rem, 1.1vw, 0.92rem);
+    color: var(--dgray);
+    line-height: 1.5;
+  }
+
+  /* ── RISK CHART (Slide 4) ── */
+  .risk-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7vh;
+    flex: 1;
+  }
+  .risk-row {
+    display: grid;
+    grid-template-columns: 140px 1fr 38px;
+    gap: 0.8vw;
+    align-items: center;
+  }
+  .risk-label {
+    font-family: var(--font-body);
+    font-size: clamp(0.68rem, 1vw, 0.82rem);
+    color: var(--dgray);
+    text-align: right;
+    white-space: nowrap;
+  }
+  .risk-bar-wrap {
+    height: 22px;
+    background: var(--lgray);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+  }
+  .risk-bar {
+    height: 100%;
+    border-radius: 2px;
+    width: 0;
+    transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+  }
+  .slide.active .risk-bar { width: var(--bar-w); }
+  .risk-val {
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--dgray);
+  }
+  .risk-legend {
+    display: flex;
+    gap: 2vw;
+    margin-top: 1.5vh;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex; align-items: center; gap: 0.5vw;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    color: var(--dgray);
+  }
+  .legend-dot { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; }
+
+  /* ── DATE CARDS (Slide 5) ── */
+  .date-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2vw;
+    flex: 1;
+  }
+  .date-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.2);
+  }
+  .date-card.primary {
+    background: var(--navy);
+    border: 1.5px solid var(--gold);
+    animation: goldGlow 3s infinite;
+  }
+  .date-card.secondary {
+    background: var(--navy2);
+    border: 1px solid rgba(201,151,58,0.25);
+  }
+  .date-card-header {
+    padding: 1.2vh 1.5vw;
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .date-card.primary .date-card-header { background: var(--gold); color: var(--navy); }
+  .date-card.secondary .date-card-header { background: var(--navy3); color: var(--gold3); }
+  .date-card-body { padding: 2vh 1.8vw; flex: 1; }
+  .date-big {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3vw, 2.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 0.3em;
+  }
+  .date-card.primary .date-big { color: var(--gold2); }
+  .date-card.secondary .date-big { color: var(--white); }
+  .date-sub {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 0.95rem;
+    margin-bottom: 1.5vh;
+  }
+  .date-card.primary .date-sub { color: var(--gold3); }
+  .date-card.secondary .date-sub { color: rgba(138,155,181,0.8); }
+  .date-points { list-style: none; }
+  .date-points li {
+    font-family: var(--font-body);
+    font-size: clamp(0.75rem, 1.05vw, 0.88rem);
+    padding: 0.4vh 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    display: flex; gap: 0.5vw;
+  }
+  .date-card.primary .date-points li { color: rgba(160,184,200,0.85); }
+  .date-card.secondary .date-points li { color: rgba(138,155,181,0.75); }
+  .tick { color: var(--green); font-size: 0.9rem; flex-shrink: 0; }
+  .date-card.primary .tick { color: var(--gold2); }
+
+  /* ── CONSTRAINTS TABLE (Slide 6) ── */
+  .constraints-table {
+    width: 100%;
+    border-collapse: collapse;
+    flex: 1;
+  }
+  .constraints-table th {
+    padding: 1.2vh 1.2vw;
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .constraints-table th:first-child { background: var(--navy); color: var(--white); text-align: left; }
+  .constraints-table th:nth-child(2) { background: var(--gold); color: var(--navy); text-align: center; }
+  .constraints-table th:nth-child(3) { background: var(--navy2); color: var(--gold3); text-align: center; }
+  .constraints-table td {
+    padding: 1.1vh 1.2vw;
+    font-family: var(--font-body);
+    font-size: clamp(0.75rem, 1.05vw, 0.88rem);
+    border-bottom: 1px solid var(--lgray);
+  }
+  .constraints-table td:first-child { color: var(--dgray); }
+  .constraints-table td:not(:first-child) { text-align: center; font-weight: 600; }
+  .constraints-table tr:nth-child(even) td { background: var(--cream); }
+  .check { color: var(--green); }
+  .warn  { color: var(--amber); }
+
+  /* ── TIMING BANDS (Slide 7) ── */
+  .timing-bands { display: flex; flex-direction: column; gap: 1.5vh; flex: 1; }
+  .timing-band {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    overflow: hidden;
+    box-shadow: 0 3px 14px rgba(0,0,0,0.15);
+    flex: 1;
+  }
+  .timing-time {
+    display: flex; align-items: center; justify-content: center;
+    padding: 1.5vh 1.5vw;
+    font-family: var(--font-display);
+    font-size: clamp(1rem, 1.6vw, 1.3rem);
+    font-weight: 600;
+    color: var(--white);
+    text-align: center;
+    line-height: 1.3;
+  }
+  .timing-content { padding: 1.5vh 2vw; border-left: 3px solid rgba(255,255,255,0.15); }
+  .timing-label {
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 0.4vh;
+  }
+  .timing-desc {
+    font-family: var(--font-body);
+    font-size: clamp(0.78rem, 1.1vw, 0.9rem);
+    color: rgba(255,255,255,0.85);
+    line-height: 1.4;
+  }
+  .timing-safe    { background: var(--green); }
+  .timing-caution { background: var(--amber); }
+  .timing-risk    { background: var(--red); }
+  .timing-note {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--navy);
+    text-align: center;
+    padding: 1.2vh;
+    background: var(--gold4);
+    border: 1px solid var(--gold);
+    margin-top: 1.5vh;
+  }
+
+  /* ── WHY NOT AUGUST (Slide 8) ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2vw; flex: 1; }
+  .panel { display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 4px 18px rgba(0,0,0,0.2); }
+  .panel-header {
+    padding: 1.3vh 1.5vw;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--white);
+    text-align: center;
+  }
+  .panel-header.amber { background: var(--amber); }
+  .panel-header.red   { background: var(--red); }
+  .panel-body { background: var(--navy); padding: 1.8vh 1.5vw; flex: 1; }
+  .panel-body.navy2 { background: var(--navy2); }
+  .panel-item {
+    display: flex;
+    gap: 0.8vw;
+    padding: 0.8vh 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-family: var(--font-body);
+    font-size: clamp(0.75rem, 1.05vw, 0.87rem);
+    color: rgba(160,184,200,0.85);
+    line-height: 1.4;
+  }
+  .panel-item .icon { flex-shrink: 0; font-size: 0.85rem; }
+
+  /* ── PLANNING ESSENTIALS (Slide 9) ── */
+  .essentials-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5vw; flex: 1; }
+  .essential-card {
+    background: var(--white);
+    border-left: 5px solid var(--gold);
+    padding: 1.5vh 1.5vw;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+  }
+  .essential-title {
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 1vh;
+    display: flex; align-items: center; gap: 0.5vw;
+  }
+  .essential-points { list-style: none; }
+  .essential-points li {
+    font-family: var(--font-body);
+    font-size: clamp(0.73rem, 1vw, 0.83rem);
+    color: var(--dgray);
+    padding: 0.4vh 0;
+    border-bottom: 1px solid var(--lgray);
+    display: flex; gap: 0.5vw;
+    line-height: 1.4;
+  }
+  .essential-points li::before { content: '·'; color: var(--gold); font-weight: 700; flex-shrink: 0; }
+
+  /* ── DECISION TIMELINE (Slide 10) ── */
+  .timeline { display: flex; flex-direction: column; gap: 0.9vh; flex: 1; }
+  .timeline-row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 0;
+    align-items: stretch;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .timeline-week {
+    display: flex; align-items: center; justify-content: center;
+    padding: 1.1vh 1vw;
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--white);
+    text-align: center;
+    line-height: 1.3;
+  }
+  .timeline-action {
+    background: var(--white);
+    padding: 1.1vh 1.5vw;
+    font-family: var(--font-body);
+    font-size: clamp(0.78rem, 1.1vw, 0.9rem);
+    color: var(--dgray);
+    display: flex; align-items: center;
+    border-bottom: 1px solid var(--lgray);
+  }
+  .timeline-action.urgent { font-weight: 600; color: var(--navy); }
+  .timeline-alert {
+    background: var(--gold4);
+    border: 1px solid var(--gold);
+    padding: 1vh 1.5vw;
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--amber);
+    text-align: center;
+    margin-top: 1vh;
+  }
+
+  /* ── RECOMMENDATION (Slide 11) ── */
+  .rec-box {
+    background: var(--navy2);
+    border: 2px solid var(--gold);
+    box-shadow: 0 0 30px rgba(201,151,58,0.2);
+    animation: goldGlow 3s infinite;
+    padding: 0;
+    overflow: hidden;
+    margin-bottom: 2vh;
+  }
+  .rec-box-top {
+    background: var(--gold);
+    padding: 1vh 2vw;
+    text-align: center;
+  }
+  .rec-box-top span {
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--navy);
+    text-transform: uppercase;
+  }
+  .rec-box-body { padding: 2.5vh 2vw 2vh; text-align: center; }
+  .rec-date {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 700;
+    color: var(--gold2);
+    line-height: 1;
+    margin-bottom: 0.2em;
+  }
+  .rec-detail {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(0.9rem, 1.4vw, 1.1rem);
+    color: var(--gold3);
+  }
+  .rec-secondary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5vw;
+  }
+  .rec-secondary-card {
+    background: var(--navy3);
+    padding: 1.5vh 1.5vw;
+    border-top: 3px solid;
+  }
+  .rec-secondary-card.option2  { border-color: rgba(201,151,58,0.5); }
+  .rec-secondary-card.fallback { border-color: rgba(176,125,42,0.5); }
+  .rec-secondary-label {
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.6vh;
+  }
+  .rec-secondary-card.option2  .rec-secondary-label { color: var(--gold3); }
+  .rec-secondary-card.fallback .rec-secondary-label { color: var(--amber); }
+  .rec-secondary-date {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.3vh;
+  }
+  .rec-secondary-note {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 0.82rem;
+    color: rgba(138,155,181,0.8);
+  }
+  .rec-closing {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(0.85rem, 1.2vw, 1rem);
+    color: rgba(138,155,181,0.8);
+    text-align: center;
+    margin-top: 1.5vh;
+  }
+
+  /* ── CLOSING (Slide 12) ── */
+  #s12 .closing-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4.5vw, 3.8rem);
+    font-weight: 700;
+    color: var(--white);
+    text-align: center;
+    line-height: 1.15;
+    margin-bottom: 1vh;
+  }
+  #s12 .closing-rule { width: 30%; height: 3px; background: var(--gold); border: none; margin: 1.5vh auto; }
+  #s12 .closing-sub {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(0.9rem, 1.4vw, 1.1rem);
+    color: rgba(138,155,181,0.85);
+    text-align: center;
+    max-width: 70%;
+    margin: 0 auto 3vh;
+    line-height: 1.6;
+  }
+  #s12 .sources-label {
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--gold2);
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 1vh;
+  }
+  #s12 .sources {
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    color: rgba(90,122,154,0.9);
+    text-align: center;
+    line-height: 1.8;
+  }
+  #s12 .prepared {
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-style: italic;
+    color: rgba(90,122,154,0.8);
+    text-align: center;
+    margin-top: 2vh;
+  }
+  #s12 .disclaimer {
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    color: rgba(58,90,122,0.7);
+    text-align: center;
+    margin-top: 1vh;
+  }
+</style>
+</head>
+<body>
+
+<div id="hint">← → arrow keys or click</div>
+
+<div id="presentation">
+
+  <!-- SLIDE 1: TITLE -->
+  <div class="slide dark active" id="s1">
+    <div class="left-accent"></div>
+    <div class="slide-inner" style="justify-content: center; padding-left: 7vw;">
+      <div class="decorative-dots">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="main-title anim-1">Selecting the Right Date</div>
+      <div class="sub-title anim-2">for a Chief's Funeral in Abagana</div>
+      <hr class="rule anim-3">
+      <div class="tagline anim-4">A Data-Driven Recommendation for the Planning Committee</div>
+      <div class="meta anim-5">Abagana, Anambra State &nbsp;·&nbsp; June–August 2026 &nbsp;·&nbsp; April 2026</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: THE QUESTION -->
+  <div class="slide light" id="s2">
+    <div class="slide-inner">
+      <div class="slide-title dark-text anim-1">The Question Before the Committee</div>
+      <hr class="gold-rule anim-2">
+      <div class="question-box anim-3">
+        <p>Which weekend in June–August 2026 gives the best chance of dry weather<br>for a three-day outdoor chief's funeral in Abagana?</p>
+      </div>
+      <div class="constraint-grid anim-4">
+        <div class="constraint-card">
+          <div class="label">Religious Timeline</div>
+          <div class="value">60–90 days after passing</div>
+        </div>
+        <div class="constraint-card">
+          <div class="label">Preparation Needed</div>
+          <div class="value">8–10 weeks from decision</div>
+        </div>
+        <div class="constraint-card">
+          <div class="label">Guest Travel</div>
+          <div class="value">Eastern Nigeria + Lagos</div>
+        </div>
+      </div>
+      <div class="footnote anim-5">This presentation summarises data-driven research to support the committee's final decision.</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: WHAT TO EXPECT -->
+  <div class="slide light" id="s3">
+    <div class="slide-inner">
+      <div class="slide-title dark-text anim-1">What to Expect: June to August 2026</div>
+      <hr class="gold-rule anim-2">
+      <p class="body-text anim-3">This entire period falls within Nigeria's peak rainy season. The goal is not to find a rain-free date — it is to find the date with the most manageable rain.</p>
+      <div class="metrics-row anim-4">
+        <div class="metric-card"><span class="val">28–31°C</span><span class="lbl">Daytime Temperature</span></div>
+        <div class="metric-card"><span class="val">75–90%</span><span class="lbl">Humidity</span></div>
+        <div class="metric-card"><span class="val">~200mm</span><span class="lbl">Monthly Rainfall</span></div>
+        <div class="metric-card"><span class="val">18–20</span><span class="lbl">Rainy Days / Month</span></div>
+        <div class="metric-card"><span class="val">4–5 hrs</span><span class="lbl">Daily Sunshine</span></div>
+      </div>
+      <div class="insight-box anim-5">
+        <strong>The critical variable is not total rainfall — it is rain TYPE and TIMING.</strong>
+        <p>Late June rain = short afternoon thunderstorms (manageable, predictable). &nbsp; August rain = persistent all-day downpours with flood risk.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: ALL WEEKENDS RANKED -->
+  <div class="slide light" id="s4">
+    <div class="slide-inner">
+      <div class="slide-title dark-text anim-1">All 10 Weekends — Ranked by Rain Risk</div>
+      <hr class="gold-rule anim-2">
+      <div class="risk-chart anim-3">
+        <div class="risk-row">
+          <div class="risk-label">01 Jun 18–21</div>
+          <div class="risk-bar-wrap"><div class="risk-bar" style="--bar-w:54.4%; background:var(--green);"></div></div>
+          <div class="risk-val">49</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-label">02 Jun 25–28</div>
+          <div class="risk-bar-wrap"><div class="risk-bar" style="--bar-w:60%; background:var(--green);"></div></div>
+          <div class="risk-val">54</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-label">03 Jul 2–5</div>
+          <div class="risk-bar-wrap"><div class="risk-bar" style="--bar-w:77.8%; background:var(--amber);"></div></div>
+          <div class="risk-val">70</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-label">04 Jul 9–12</div>
+          <div class="risk-bar-wrap"><div class="risk-bar" style="--bar-w:80%; background:var(--red);"></div></div>
+          <div class="risk-val">72</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-label">05 Jul 16–19</div>
+          <div class="risk-bar-wrap"><div class="risk-bar" style="--bar-w:82.2%; background:var(--red);"></div></div>
+          <div class="risk-val">74</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-label">06 Jul 23–26 ✦</div>
+          <div class="risk-bar-wrap"><div class="risk-bar" style="--bar-w:66.7%; background:var(--gold);"></div></div>
+          <div class="risk-val">60</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-label">07 Jul 30–Aug 2 ✦</div>
+          <div class="risk-bar-wrap"><div class="risk-bar" style="--bar-w:52.2%; background:var(--gold);"></div></div>
+          <div class="risk-val">47</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-label">08 Aug 6–9</div>
+          <div class="risk-bar-wrap"><div class="risk-bar" style="--bar-w:74.4%; background:var(--red);"></div></div>
+          <div class="risk-val">67</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-label">09 Aug 13–16</div>
+          <div class="risk-bar-wrap"><div class="risk-bar" style="--bar-w:76.7%; background:var(--red);"></div></div>
+          <div class="risk-val">69</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-label">10 Aug 20–23</div>
+          <div class="risk-bar-wrap"><div class="risk-bar" style="--bar-w:73.3%; background:var(--red);"></div></div>
+          <div class="risk-val">66</div>
+        </div>
+      </div>
+      <div class="risk-legend anim-4">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div> Best — Recommended</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div> August break window ✦</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--amber)"></div> High risk</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div> Avoid</div>
+        <div class="legend-item" style="margin-left:auto; font-style:italic; color:var(--gray);">Lower score = safer for outdoor events</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: THE TWO DATES -->
+  <div class="slide light" id="s5">
+    <div class="slide-inner">
+      <div class="slide-title dark-text anim-1">The Two Shortlisted Dates</div>
+      <hr class="gold-rule anim-2">
+      <div class="date-grid anim-3">
+        <div class="date-card primary">
+          <div class="date-card-header">⭐ &nbsp; Primary Recommendation</div>
+          <div class="date-card-body">
+            <div class="date-big">June 18–21, 2026</div>
+            <div class="date-sub">Thursday to Sunday</div>
+            <ul class="date-points">
+              <li><span class="tick">✓</span> Risk score: 49 — lowest in June</li>
+              <li><span class="tick">✓</span> Friday 19 June: highest dry morning chance</li>
+              <li><span class="tick">✓</span> Rain = short afternoon thunderstorms only</li>
+              <li><span class="tick">✓</span> Mornings (6am–1pm) most reliable window</li>
+              <li><span class="tick">✓</span> Travel routes from Lagos, PH, Aba clear</li>
+            </ul>
+          </div>
+        </div>
+        <div class="date-card secondary">
+          <div class="date-card-header">2nd Option</div>
+          <div class="date-card-body">
+            <div class="date-big">June 25–28, 2026</div>
+            <div class="date-sub">Thursday to Sunday</div>
+            <ul class="date-points">
+              <li><span class="tick">✓</span> Risk score: 54 — second lowest in June</li>
+              <li><span class="tick">✓</span> Still within June's favourable pattern</li>
+              <li><span class="tick">✓</span> Rain frequency rising toward July</li>
+              <li><span class="tick">✓</span> Mornings remain reliable window</li>
+              <li><span class="tick">✓</span> 8–10 weeks prep time still achievable</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: CONSTRAINTS TABLE -->
+  <div class="slide light" id="s6">
+    <div class="slide-inner">
+      <div class="slide-title dark-text anim-1">How Both Dates Meet the Constraints</div>
+      <hr class="gold-rule anim-2">
+      <table class="constraints-table anim-3">
+        <thead>
+          <tr>
+            <th>Constraint</th>
+            <th>Jun 18–21 ⭐</th>
+            <th>Jun 25–28</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Religious timeline (60–90 days)</td>
+            <td><span class="check">✓</span> Day 75–90 from passing</td>
+            <td><span class="check">✓</span> Day 82–97 from passing</td>
+          </tr>
+          <tr>
+            <td>Preparation time (8–10 weeks)</td>
+            <td><span class="check">✓</span> Decide by mid-April</td>
+            <td><span class="check">✓</span> Decide by late April</td>
+          </tr>
+          <tr>
+            <td>Traditional market days</td>
+            <td><span class="warn">⚠</span> Confirm with elders</td>
+            <td><span class="warn">⚠</span> Confirm with elders</td>
+          </tr>
+          <tr>
+            <td>Guest travel routes (Eastern NGA + Lagos)</td>
+            <td><span class="check">✓</span> Routes clear in June</td>
+            <td><span class="check">✓</span> Routes clear in June</td>
+          </tr>
+          <tr>
+            <td>Avoid August Meeting & New Yam Festival</td>
+            <td><span class="check">✓</span> Fully clear</td>
+            <td><span class="check">✓</span> Fully clear</td>
+          </tr>
+          <tr>
+            <td>Weather risk score</td>
+            <td><span class="check">✓</span> Score 49 — BEST</td>
+            <td><span class="check">✓</span> Score 54 — Good</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: DAILY TIMING -->
+  <div class="slide light" id="s7">
+    <div class="slide-inner">
+      <div class="slide-title dark-text anim-1">Daily Timing — Scheduling the Rites</div>
+      <hr class="gold-rule anim-2">
+      <p class="body-text anim-3">Regardless of which date is chosen, the timing of each ceremony within the day matters greatly.</p>
+      <div class="timing-bands anim-4">
+        <div class="timing-band">
+          <div class="timing-time timing-safe">6:00am –<br>1:00pm</div>
+          <div class="timing-content timing-safe">
+            <div class="timing-label">Safest Window</div>
+            <div class="timing-desc">Schedule all key outdoor rites here — processions, interment, lying-in-state, community gatherings</div>
+          </div>
+        </div>
+        <div class="timing-band">
+          <div class="timing-time timing-caution">1:00pm –<br>4:00pm</div>
+          <div class="timing-content timing-caution">
+            <div class="timing-label">Caution Zone</div>
+            <div class="timing-desc">Build rain-delay buffer here. Have covered fallback space ready. Avoid immovable ceremonies.</div>
+          </div>
+        </div>
+        <div class="timing-band">
+          <div class="timing-time timing-risk">4:00pm –<br>9:00pm</div>
+          <div class="timing-content timing-risk">
+            <div class="timing-label">Peak Storm Risk</div>
+            <div class="timing-desc">Highest probability of afternoon thunderstorms. Use covered spaces. Schedule indoor reception here.</div>
+          </div>
+        </div>
+      </div>
+      <div class="timing-note anim-5">Build a 30–45 minute rain-delay buffer into the programme schedule for each day.</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: WHY NOT AUGUST -->
+  <div class="slide light" id="s8">
+    <div class="slide-inner">
+      <div class="slide-title dark-text anim-1">Why August is Not Recommended</div>
+      <hr class="gold-rule anim-2">
+      <div class="two-col anim-3">
+        <div class="panel">
+          <div class="panel-header amber">The "August Break" Is Unreliable</div>
+          <div class="panel-body">
+            <div class="panel-item"><span class="icon">⚠</span> NiMet rates Anambra's August break as MILD every reviewed year</div>
+            <div class="panel-item"><span class="icon">⚠</span> In 2022 — NO break occurred. Historic flooding hit Anambra</div>
+            <div class="panel-item"><span class="icon">⚠</span> In 2023 and 2024 — only mild dry spells in the southeast</div>
+            <div class="panel-item"><span class="icon">⚠</span> The break is strongest in Lagos/Ogun — NOT in Anambra</div>
+            <div class="panel-item"><span class="icon">⚠</span> Climate change is weakening it further each year</div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header red">August Risk Factors for This Event</div>
+          <div class="panel-body navy2">
+            <div class="panel-item"><span class="icon">✗</span> August Meeting conflicts with guest availability</div>
+            <div class="panel-item"><span class="icon">✗</span> New Yam Festival — community focus is elsewhere</div>
+            <div class="panel-item"><span class="icon">✗</span> Flood risk on major routes — PH, Aba, Onitsha roads</div>
+            <div class="panel-item"><span class="icon">✗</span> All-day persistent rain disrupts ceremonial rites</div>
+            <div class="panel-item"><span class="icon">✗</span> Anambra flood season peaks in August — venue risk</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 9: PLANNING ESSENTIALS -->
+  <div class="slide light" id="s9">
+    <div class="slide-inner">
+      <div class="slide-title dark-text anim-1">Planning Essentials — Regardless of Date</div>
+      <hr class="gold-rule anim-2">
+      <p class="body-text anim-3" style="font-style:italic;">No date in this period is rain-free. These measures are non-negotiable for any weekend chosen.</p>
+      <div class="essentials-grid anim-4">
+        <div class="essential-card">
+          <div class="essential-title">🏗 &nbsp; Venue & Infrastructure</div>
+          <ul class="essential-points">
+            <li>Covered marquee tents or hall — size for full attendance</li>
+            <li>Interlock/concrete flooring — avoid bare soil</li>
+            <li>Proper drainage channels around venue</li>
+          </ul>
+        </div>
+        <div class="essential-card">
+          <div class="essential-title">🔊 &nbsp; Technical Setup</div>
+          <ul class="essential-points">
+            <li>Weatherproof all sound systems and power supply</li>
+            <li>Elevated cabling to minimise surface flood risk</li>
+            <li>Generator backup — power interruptions common in rain</li>
+          </ul>
+        </div>
+        <div class="essential-card">
+          <div class="essential-title">📋 &nbsp; Programme Design</div>
+          <ul class="essential-points">
+            <li>All key outdoor rites scheduled before 1pm</li>
+            <li>30–45 min rain-delay buffer built into schedule</li>
+            <li>Indoor fallback segment for every outdoor activity</li>
+          </ul>
+        </div>
+        <div class="essential-card">
+          <div class="essential-title">📡 &nbsp; Monitoring</div>
+          <ul class="essential-points">
+            <li>Check NiMet forecast 7–10 days before event</li>
+            <li>Assign weather monitor on each event day</li>
+            <li>Brief coordinators on rain contingency plan</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 10: DECISION TIMELINE -->
+  <div class="slide light" id="s10">
+    <div class="slide-inner">
+      <div class="slide-title dark-text anim-1">Decision Timeline — Act Now</div>
+      <hr class="gold-rule anim-2">
+      <p class="body-text anim-3" style="font-style:italic;">Preparation time of 8–10 weeks means the window to decide is closing.</p>
+      <div class="timeline anim-4">
+        <div class="timeline-row">
+          <div class="timeline-week" style="background:var(--red);">This week</div>
+          <div class="timeline-action urgent">Committee confirms date between Jun 18–21 and Jun 25–28</div>
+        </div>
+        <div class="timeline-row">
+          <div class="timeline-week" style="background:var(--amber);">Week 1–2</div>
+          <div class="timeline-action">Secure venue, marquee provider and catering — June books fast</div>
+        </div>
+        <div class="timeline-row">
+          <div class="timeline-week" style="background:var(--navy2);">Week 2–4</div>
+          <div class="timeline-action">Send invitations to guests in Lagos, PH, Aba, Imo, Abia</div>
+        </div>
+        <div class="timeline-row">
+          <div class="timeline-week" style="background:var(--navy2);">Week 4–6</div>
+          <div class="timeline-action">Confirm traditional rites schedule with community elders and church</div>
+        </div>
+        <div class="timeline-row">
+          <div class="timeline-week" style="background:var(--navy2);">Week 6–8</div>
+          <div class="timeline-action">Confirm all logistics — transport, accommodation, programme</div>
+        </div>
+        <div class="timeline-row">
+          <div class="timeline-week" style="background:var(--green);">7–10 days before</div>
+          <div class="timeline-action">Check NiMet daily forecast and finalise rain contingency plan</div>
+        </div>
+      </div>
+      <div class="timeline-alert anim-5">⚠ &nbsp; If Jun 18–21 is chosen — the decision must be made this week to allow 8 weeks preparation.</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 11: RECOMMENDATION -->
+  <div class="slide dark" id="s11">
+    <div class="slide-inner">
+      <div class="slide-title light-text anim-1">The Recommendation</div>
+      <hr class="gold-rule anim-2">
+      <div class="rec-box anim-3">
+        <div class="rec-box-top"><span>Primary Recommendation</span></div>
+        <div class="rec-box-body">
+          <div class="rec-date">June 18–21, 2026</div>
+          <div class="rec-detail">Thursday to Sunday &nbsp;·&nbsp; Risk Score: 49 &nbsp;·&nbsp; Lowest risk in the entire period</div>
+        </div>
+      </div>
+      <div class="rec-secondary-grid anim-4">
+        <div class="rec-secondary-card option2">
+          <div class="rec-secondary-label">2nd Option</div>
+          <div class="rec-secondary-date">June 25–28, 2026</div>
+          <div class="rec-secondary-note">If Jun 18 not possible · Score: 54</div>
+        </div>
+        <div class="rec-secondary-card fallback">
+          <div class="rec-secondary-label">Contingency Only</div>
+          <div class="rec-secondary-date">Jul 30 – Aug 2, 2026</div>
+          <div class="rec-secondary-note">August break — unreliable in Anambra</div>
+        </div>
+      </div>
+      <div class="rec-closing anim-5">The data is clear. June 18–21 gives the highest probability of manageable conditions for outdoor ceremonial rites. The morning window is your strongest asset.</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 12: CLOSING -->
+  <div class="slide dark" id="s12">
+    <div class="slide-inner" style="justify-content: center; align-items: center; text-align: center;">
+      <div class="closing-title anim-1">Honouring a Chief —<br>with Care and Preparation</div>
+      <hr class="closing-rule anim-2">
+      <div class="closing-sub anim-3">This research was conducted to give the planning committee the best possible information to make a confident, well-reasoned decision for this important occasion.</div>
+      <div class="sources-label anim-4">Data Sources</div>
+      <div class="sources anim-4">
+        NASA POWER API &nbsp;·&nbsp; WeatherSpark (30-year averages) &nbsp;·&nbsp; NiMet Seasonal Climate Predictions 2020–2026<br>
+        Springer (2010) — August break research &nbsp;·&nbsp; World Water Policy (2023) — LDS variability study<br>
+        Climates to Travel &nbsp;·&nbsp; Blue Green Atlas &nbsp;·&nbsp; ResearchGate — Anambra-Imo Basin
+      </div>
+      <div class="prepared anim-5">Prepared by Stanley Okoye &nbsp;·&nbsp; MSc Business Analytics &nbsp;·&nbsp; April 2026</div>
+      <div class="disclaimer anim-5">Seasonal averages only. No long-range forecast predicts exact daily conditions. Consult NiMet 7–10 days before event.</div>
+    </div>
+  </div>
+
+</div><!-- /presentation -->
+
+<!-- NAV -->
+<div id="nav">
+  <button id="prev" title="Previous">&#8592;</button>
+  <div class="dot-nav" id="dots"></div>
+  <span id="slide-counter">1 / 12</span>
+  <button id="next" title="Next">&#8594;</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dotsContainer = document.getElementById('dots');
+  const counter = document.getElementById('slide-counter');
+  let current = 0;
+  const total = slides.length;
+
+  // Build dots
+  slides.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(d);
+  });
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    dotsContainer.children[current].classList.remove('active');
+    current = (n + total) % total;
+    slides[current].classList.add('active');
+    dotsContainer.children[current].classList.add('active');
+    counter.textContent = `${current + 1} / ${total}`;
+  }
+
+  document.getElementById('next').addEventListener('click', () => goTo(current + 1));
+  document.getElementById('prev').addEventListener('click', () => goTo(current - 1));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); goTo(current + 1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(current - 1); }
+  });
+
+  // Touch/swipe support
+  let touchStartX = 0;
+  document.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].screenX - touchStartX;
+    if (Math.abs(dx) > 50) { dx < 0 ? goTo(current + 1) : goTo(current - 1); }
+  });
+</script>
+</body>
+</html>
